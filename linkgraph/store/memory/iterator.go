@@ -1,5 +1,7 @@
 package memory
 
+import "github.com/calvincolton/links-r-us/linkgraph/graph"
+
 // import "github.com/calvincolton/links-r-us/linkgraph/graph"
 
 // linkIterator is a graph.LinkIterator implementation for the in-memory graph

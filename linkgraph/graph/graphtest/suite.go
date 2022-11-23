@@ -7,6 +7,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/calvincolton/links-r-us/linkgraph/graph"
 	"github.com/google/uuid"
 	"golang.org/x/xerrors"
 

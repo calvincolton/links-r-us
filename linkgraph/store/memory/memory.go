@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/calvincolton/links-r-us/linkgraph/graph/graph"
+	"github.com/calvincolton/links-r-us/linkgraph/graph"
 	"github.com/google/uuid"
 	"golang.org/x/xerrors"
 )
@@ -19,6 +19,7 @@ type edgeList []uuid.UUID
 type InMemoryGraph struct {
 	mu sync.RWMutex
 
+	// links map[uuid.UUID]*graph.Link
 	links map[uuid.UUID]*graph.Link
 	edges map[uuid.UUID]*graph.Edge
 
@@ -31,7 +32,7 @@ func NewInMemoryGraph() *InMemoryGraph {
 	return &InMemoryGraph{
 		links:        make(map[uuid.UUID]*graph.Link),
 		edges:        make(map[uuid.UUID]*graph.Edge),
-		linkURLIndex: make(map[sstring]*graph.Link),
+		linkURLIndex: make(map[string]*graph.Link),
 		linkEdgeMap:  make(map[uuid.UUID]edgeList),
 	}
 }
@@ -91,7 +92,7 @@ func (s *InMemoryGraph) Links(fromID, toID uuid.UUID, retrievedBefore time.Time)
 	s.mu.RLock()
 	var list []*graph.Link
 	for linkID, link := range s.links {
-		if id := linkID.String(); id >= from && id < to && link.RetrievedBefore(retrievedBefore) {
+		if id := linkID.String(); id >= from && id < to && link.RetrievedAt.Before(retrievedBefore) {
 			list = append(list, link)
 		}
 	}
